@@ -150,8 +150,8 @@ def deploy_challenge(args):
         removed = remove_record(record, value)
         print ' + {0}: {1}'.format(removed['data'], removed['result'])
 
-        print ' + Settling down for 10s...'
-        time.sleep(10)
+        print ' + Settling down for 30s...'
+        time.sleep(30)
 
     # Add new record
     print ' + Adding new TXT record {0}...'.format(token)
@@ -159,13 +159,13 @@ def deploy_challenge(args):
     print ' + {0}: {1}'.format(added['data'], added['result'])
 
     # Sleep to give record time to update
-    print ' + Settling down for 10s...'
-    time.sleep(10)
+    print ' + Settling down for 30s...'
+    time.sleep(30)
 
     # Wait for the DNS change to propagate
-    while has_dns_propagated(record, token) is False:
-        print ' + DNS not propagated, waiting 30s...'
-        time.sleep(30)
+    #while has_dns_propagated(record, token) is False:
+    #    print ' + DNS not propagated, waiting 30s...'
+    #    time.sleep(30)
 
     return
 
