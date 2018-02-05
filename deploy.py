@@ -26,7 +26,8 @@ import yaml
 
 
 # Define letsencrypt.sh defaults
-LETSENCRYPT_ROOT = '/etc/dehydrated/certs/{domain}/{pem}.pem'
+#LETSENCRYPT_ROOT = '/etc/dehydrated/certs/{domain}/{pem}.pem'
+LETSENCRYPT_ROOT = '/root/dehydrated/certs/{domain}/{pem}.pem'
 
 # Set user config file path
 CONFIG_FILE = os.path.join(

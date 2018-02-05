@@ -150,8 +150,8 @@ def deploy_challenge(args):
         removed = remove_record(record, value)
         print ' + {0}: {1}'.format(removed['data'], removed['result'])
 
-        print ' + Settling down for 10s...'
-        time.sleep(10)
+        print ' + Settling down for 30s...'
+        time.sleep(30)
 
     # Add new record
     print ' + Adding new TXT record {0}...'.format(token)
@@ -159,13 +159,13 @@ def deploy_challenge(args):
     print ' + {0}: {1}'.format(added['data'], added['result'])
 
     # Sleep to give record time to update
-    print ' + Settling down for 10s...'
-    time.sleep(10)
+    print ' + Settling down for 30s...'
+    time.sleep(30)
 
     # Wait for the DNS change to propagate
-    while has_dns_propagated(record, token) is False:
-        print ' + DNS not propagated, waiting 30s...'
-        time.sleep(30)
+    #while has_dns_propagated(record, token) is False:
+    #    print ' + DNS not propagated, waiting 30s...'
+    #    time.sleep(30)
 
     return
 
@@ -224,6 +224,20 @@ def unchanged_cert(args):
 
     return
 
+def invalid_challenge(args):
+    domain, result = args
+    msg = ' + Invalid challenge for \'{0}\''
+    print msg.format(domain)
+    msg = ' + Full error: \'{0}\''
+    print msg.format(result)
+
+    return
+
+def startup_hook(args):
+    return
+
+def exit_hook(args):
+    return
 
 def run_hook(args):
     """Determine action to take based on CLI args."""
@@ -232,7 +246,10 @@ def run_hook(args):
         'deploy_challenge': deploy_challenge,
         'clean_challenge': clean_challenge,
         'deploy_cert': deploy_cert,
-        'unchanged_cert': unchanged_cert
+        'unchanged_cert': unchanged_cert,
+        'invalid_challenge': invalid_challenge,
+        'startup_hook': startup_hook,
+        'exit_hook': exit_hook
     }
 
     # Deploy hook operation
