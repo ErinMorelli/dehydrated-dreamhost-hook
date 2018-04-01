@@ -253,9 +253,13 @@ def run_hook(args):
     }
 
     # Deploy hook operation
-    print ' + Dreamhost hook executing: {0}'.format(args[0])
-    operations[args[0]](args[1:])
-
+    if args[0] in operations:
+        print ' + Dreamhost hook executing: {0}'.format(args[0])
+        operations[args[0]](args[1:])
+    else:
+        # Per https://github.com/lukas2511/dehydrated/blob/537877a0e2fa39b16676a22aa3069730f5ba0ee4/dehydrated#L88
+        # Ignore any unknown hooks
+        pass
     return
 
 
