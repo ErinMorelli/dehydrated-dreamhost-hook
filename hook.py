@@ -254,7 +254,10 @@ def run_hook(args):
 
     # Deploy hook operation
     print ' + Dreamhost hook executing: {0}'.format(args[0])
-    operations[args[0]](args[1:])
+    try:
+        operations[args[0]](args[1:])
+    except KeyError as exception:
+        print exception
 
     return
 
