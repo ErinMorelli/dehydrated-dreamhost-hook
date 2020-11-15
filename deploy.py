@@ -48,7 +48,7 @@ def parse_config():
         sys.exit(ERROR.format(name='deployment config', files=CONFIG_FILE))
 
     # Parse YAML config file
-    return yaml.load(file(CONFIG_FILE, 'r'))
+    return yaml.load(open(CONFIG_FILE, 'r'))
 
 
 def deploy_file(file_type, old_file, new_file):
