@@ -32,7 +32,7 @@ DNS_COUNTER = 0
 try:
     HOST_API_KEY = os.environ['DREAMHOST_API_KEY']
 except KeyError:
-    print ' + Unable to locate Dreamhost API key in environment!'
+    print(' + Unable to locate Dreamhost API key in environment!')
     sys.exit(1)
 
 # Dreamhost API Globals
@@ -107,7 +107,7 @@ def has_dns_propagated(record, value):
 
     try:
         # Query TXT DNS records
-        answer = dns.resolver.query(record, 'TXT')
+        answer = dns.resolver.resolve(record, 'TXT')
 
         # Store TXT values from response
         for rdata in answer:
@@ -121,10 +121,10 @@ def has_dns_propagated(record, value):
     if value in txt_records:
         # Increase seen counter
         DNS_COUNTER += 1
-        print ' + New record seen {0} times'.format(DNS_COUNTER)
+        print(' + New record seen {0} times'.format(DNS_COUNTER))
 
         # Return true if we've seen this enough times
-        if DNS_COUNTER is 3:
+        if DNS_COUNTER == 3:
             return True
 
     # Return not propagated
@@ -141,30 +141,30 @@ def deploy_challenge(args):
     record = '{0}.{1}'.format(DNS_PREFIX, domain)
 
     # Check if record exists
-    print ' + Checking if TXT record for {0} exists...'.format(record)
+    print(' + Checking if TXT record for {0} exists...'.format(record))
     (exists, value) = record_exists(record)
 
     if exists:
         # If it exists but does not have the token we need, remove it
-        print ' + Old TXT record found, removing...'
+        print(' + Old TXT record found, removing...')
         removed = remove_record(record, value)
-        print ' + {0}: {1}'.format(removed['data'], removed['result'])
+        print(' + {0}: {1}'.format(removed['data'], removed['result']))
 
-        print ' + Settling down for 10s...'
+        print(' + Settling down for 10s...')
         time.sleep(10)
 
     # Add new record
-    print ' + Adding new TXT record {0}...'.format(token)
+    print(' + Adding new TXT record {0}...'.format(token))
     added = add_record(record, token)
-    print ' + {0}: {1}'.format(added['data'], added['result'])
+    print(' + {0}: {1}'.format(added['data'], added['result']))
 
     # Sleep to give record time to update
-    print ' + Settling down for 10s...'
+    print(' + Settling down for 10s...')
     time.sleep(10)
 
     # Wait for the DNS change to propagate
     while has_dns_propagated(record, token) is False:
-        print ' + DNS not propagated, waiting 30s...'
+        print(' + DNS not propagated, waiting 30s...')
         time.sleep(30)
 
     return
@@ -179,18 +179,18 @@ def clean_challenge(args):
     record = '{0}.{1}'.format(DNS_PREFIX, domain)
 
     # Check if record exists
-    print ' + Checking if TXT record for {0} exists...'.format(record)
+    print(' + Checking if TXT record for {0} exists...'.format(record))
     (exists, value) = record_exists(record)
 
     if exists:
         # Sleep before removing to allow request to complete
-        print ' + Old TXT record found, waiting 30s before removing...'
+        print(' + Old TXT record found, waiting 30s before removing...')
         time.sleep(30)
 
         # If it exists but does not have the token we need, remove it
-        print ' + Removing old TXT record...'
+        print(' + Removing old TXT record...')
         removed = remove_record(record, value)
-        print ' + {0}: {1}'.format(removed['data'], removed['result'])
+        print(' + {0}: {1}'.format(removed['data'], removed['result']))
 
     return
 
@@ -203,9 +203,9 @@ def deploy_cert(args):
     fullchain_file = args[3]
 
     # Print results
-    print ' + Private Key: {0}'.format(privkey_file)
-    print ' + Certificate: {0}'.format(cert_file)
-    print ' + Full Chain: {0}'.format(fullchain_file)
+    print(' + Private Key: {0}'.format(privkey_file))
+    print(' + Certificate: {0}'.format(cert_file))
+    print(' + Full Chain: {0}'.format(fullchain_file))
 
     # Run deployment script
     deploy.run_deployment()
@@ -220,16 +220,16 @@ def unchanged_cert(args):
 
     # Print message
     msg = ' + Existing cert for \'{0}\' is unchanged. Skipping hook!'
-    print msg.format(domain)
+    print(msg.format(domain))
 
     return
 
 def invalid_challenge(args):
     domain, result = args
     msg = ' + Invalid challenge for \'{0}\''
-    print msg.format(domain)
+    print(msg.format(domain))
     msg = ' + Full error: \'{0}\''
-    print msg.format(result)
+    print(msg.format(result))
 
     return
 
@@ -254,12 +254,13 @@ def run_hook(args):
 
     # Deploy hook operation
     if args[0] in operations:
-        print ' + Dreamhost hook executing: {0}'.format(args[0])
+        print(' + Dreamhost hook executing: {0}'.format(args[0]))
         operations[args[0]](args[1:])
     else:
         # Per https://github.com/lukas2511/dehydrated/blob/537877a0e2fa39b16676a22aa3069730f5ba0ee4/dehydrated#L88
         # Ignore any unknown hooks
         pass
+
     return
 
 
