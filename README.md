@@ -2,6 +2,10 @@
 
 This a hook for the [Let's Encrypt](https://letsencrypt.org/) ACME client [dehydrated](https://github.com/lukas2511/dehydrated), that enables using DNS records on [Dreamhost](https://www.dreamhost.com/) to respond to `dns-01` challenges. Requires your Dreamhost API key being in the environment.
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ErinMorelli_dehydrated-dreamhost-hook&metric=alert_status)](https://sonarcloud.io/dashboard?id=ErinMorelli_dehydrated-dreamhost-hook)
+
+---
+
 ## Setup
 ```
 $ git clone https://github.com/lukas2511/dehydrated
